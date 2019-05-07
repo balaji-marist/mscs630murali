@@ -72,8 +72,8 @@ public class CryptoEnNotes {
 
     public static String decrypt(Context context, String cipherText) throws Exception {
 
-        EnNotesDbHelper notesDbHelper = new EnNotesDbHelper(context);
-        SQLiteDatabase userdb = notesDbHelper.getReadableDatabase();
+        EnNotesUserDbHelper notesUserDbHelper = new EnNotesUserDbHelper(context);
+        SQLiteDatabase userdb = notesUserDbHelper.getReadableDatabase();
 
         Cursor password_db = userdb.rawQuery("select content from UserKey",null);
         password_db.moveToFirst();

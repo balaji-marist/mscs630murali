@@ -12,6 +12,7 @@ import android.content.Intent;
 
 import bmurali.ennotes.R;
 import bmurali.ennotes.database.EnNotesDbHelper;
+import bmurali.ennotes.database.EnNotesUserDbHelper;
 
 public class EnterPassword extends AppCompatActivity {
 
@@ -19,8 +20,8 @@ public class EnterPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EnNotesDbHelper notesDbHelper = new EnNotesDbHelper(this);
-        SQLiteDatabase userdb = notesDbHelper.getReadableDatabase();
+        EnNotesUserDbHelper notesUserDbHelper = new EnNotesUserDbHelper(this);
+        SQLiteDatabase userdb = notesUserDbHelper.getReadableDatabase();
 
         Cursor password_db = userdb.rawQuery("select FirstName,content from UserKey",null);
         password_db.moveToFirst();
@@ -38,7 +39,7 @@ public class EnterPassword extends AppCompatActivity {
             String pwd_string = pwd_from_screen.getText().toString();
 
             if(password_db.getString(1).equals(pwd_string)){
-                Intent intent = new Intent(getApplicationContext(), NewNote.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }
