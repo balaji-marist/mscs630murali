@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EnNotes</string>
+    <string name="user_key">Enter Key</string>
+    <string name="confirm_key">Confirm Key</string>
+    <string name="action_submit">Submit</string>
+    <string name="hello">Hello!</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+</resources>
