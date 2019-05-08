@@ -75,10 +75,10 @@ public class CryptoEnNotes {
         EnNotesUserDbHelper notesUserDbHelper = new EnNotesUserDbHelper(context);
         SQLiteDatabase userdb = notesUserDbHelper.getReadableDatabase();
 
-        Cursor password_db = userdb.rawQuery("select content from UserKey",null);
+        Cursor password_db = userdb.rawQuery("select Content from UserKey",null);
         password_db.moveToFirst();
 
-        final String key = password_db.getString(password_db.getColumnIndex("content"));
+        final String key = password_db.getString(password_db.getColumnIndex("Content"));
 
         byte[] cText = Base64.decode(cipherText, Base64.DEFAULT);
         byte[] pKey  = key.getBytes("UTF-8");

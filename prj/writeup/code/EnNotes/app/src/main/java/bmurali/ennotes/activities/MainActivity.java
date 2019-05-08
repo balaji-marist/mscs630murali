@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -20,6 +21,7 @@ import bmurali.ennotes.encryption.CryptoEnNotes;
 public class MainActivity extends AppCompatActivity {
 
     private final LinkedList<String> notesList = new LinkedList<>();
+    private final LinkedList<String> notesTitle = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private NotesAdapter mAdapter;
     String decryptedText;
@@ -27,21 +29,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
 
         EnNotesDbHelper notesDbHelper = new EnNotesDbHelper(this);
         SQLiteDatabase userdb = notesDbHelper.getReadableDatabase();
 
-        Cursor notes_db = userdb.rawQuery("select Content from Notes",null);
+        Cursor notes_db = userdb.rawQuery("select Title,Content from Notes",null);
         notes_db.moveToFirst();
 
         try{
             // Put initial data into the word list.
             for (int i = 0; i < notes_db.getCount(); i++) {
-                decryptedText = notes_db.getString(0);
+                decryptedText = CryptoEnNotes.decrypt(this,notes_db.getString(1));
                 notesList.addLast(decryptedText);
+                notesTitle.addLast(notes_db.getString(0));
                 notes_db.moveToNext();
             }
         }
@@ -51,12 +54,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.recyclerview);
+
+        // Give the RecyclerView a default layout manager.
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new NotesAdapter(this, notesList);
+        mAdapter = new NotesAdapter(this, notesList,notesTitle);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
-        // Give the RecyclerView a default layout manager.
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         FloatingActionButton fab = findViewById(R.id.fab);

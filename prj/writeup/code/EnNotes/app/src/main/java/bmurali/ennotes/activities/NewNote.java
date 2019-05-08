@@ -3,9 +3,11 @@ package bmurali.ennotes.activities;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,8 @@ public class NewNote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         String dt = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
 
@@ -76,11 +80,16 @@ public class NewNote extends AppCompatActivity {
             long rowid = notesdb.insert(EnNotesContract.EnNotesEntry.TABLE_NAME,null,values);
             Toast.makeText(this, "Your secret is a secret now, only you can decrypt it." , Toast.LENGTH_LONG).show();
 
-            Intent intent = new Intent(getApplicationContext(),EnterPassword.class);
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
             finish();
 
         });
 
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivityForResult(intent,0);
+        return true;
     }
 }

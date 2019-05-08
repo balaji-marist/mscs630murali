@@ -15,7 +15,8 @@ import bmurali.ennotes.R;
 public class NotesAdapter extends
         RecyclerView.Adapter<NotesAdapter.NotesViewHolder>  {
 
-    private final LinkedList<String> mWordList;
+    private final LinkedList<String> notesContentList;
+    private final LinkedList<String> notesTitleList;
     private LayoutInflater mInflater;
 
 
@@ -28,30 +29,34 @@ public class NotesAdapter extends
     }
 
     public NotesAdapter(Context context,
-                        LinkedList<String> wordList) {
+                        LinkedList<String> notesContentList,LinkedList<String> notesTitleList) {
         mInflater = LayoutInflater.from(context);
-        this.mWordList = wordList;
+        this.notesContentList = notesContentList;
+        this.notesTitleList = notesTitleList;
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
-        public final TextView wordItemView;
+        public final TextView mNoteViewContent,mNoteViewTitle;
         final NotesAdapter mAdapter;
 
         public NotesViewHolder(View itemView, NotesAdapter adapter) {
             super(itemView);
-            wordItemView = itemView.findViewById(R.id.word);
+            mNoteViewTitle = itemView.findViewById(R.id.notes_title);
+            mNoteViewContent = itemView.findViewById(R.id.notes_content);
             this.mAdapter = adapter;
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
-        String mCurrent = mWordList.get(position);
-        holder.wordItemView.setText(mCurrent);
+        String mNotesContent = notesContentList.get(position);
+        String mNotesTitle = notesTitleList.get(position);
+        holder.mNoteViewTitle.setText(mNotesTitle);
+        holder.mNoteViewContent.setText(mNotesContent);
     }
 
     @Override
     public int getItemCount() {
-        return mWordList.size();
+        return notesContentList.size();
     }
 }
