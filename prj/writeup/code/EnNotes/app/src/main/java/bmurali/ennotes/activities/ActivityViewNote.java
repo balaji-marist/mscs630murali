@@ -6,7 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,6 +27,10 @@ public class ActivityViewNote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_note);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Save note");
+
         title = getIntent().getStringExtra("NOTE_TITLE");
         content = getIntent().getStringExtra("NOTE_CONTENT");
         Integer id = getIntent().getIntExtra("NOTE_ID",0);
@@ -107,5 +113,11 @@ public class ActivityViewNote extends AppCompatActivity {
                 Toast.makeText(this, "Fingerprint Failed", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivityForResult(intent,0);
+        return true;
     }
 }

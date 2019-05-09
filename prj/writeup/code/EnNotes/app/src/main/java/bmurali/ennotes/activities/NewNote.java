@@ -36,6 +36,7 @@ public class NewNote extends AppCompatActivity {
         setContentView(R.layout.activity_new_note);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("New Note");
 
         String dt = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
 
