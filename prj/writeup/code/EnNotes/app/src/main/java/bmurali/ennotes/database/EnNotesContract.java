@@ -13,6 +13,7 @@ public class EnNotesContract {
 
     public static final class EnNotesEntry implements BaseColumns {
         public static final String TABLE_NAME = "Notes";
+        public static final String ID = "_id";
         public static final String TITLE = "Title";
         public static final String COLUMN_CONTENT = "Content";
         public static final String COLUMN_DATE = "CreatedDateTime";

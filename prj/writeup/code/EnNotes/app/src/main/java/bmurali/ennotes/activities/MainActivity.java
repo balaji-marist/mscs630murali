@@ -22,9 +22,32 @@ public class MainActivity extends AppCompatActivity {
 
     private final LinkedList<String> notesList = new LinkedList<>();
     private final LinkedList<String> notesTitle = new LinkedList<>();
+    private final LinkedList<Integer> notesID = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private NotesAdapter mAdapter;
     String decryptedText;
+
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //TODO: Step 4 of 4: Finally call getTag() on the view.
+            // This viewHolder will have all required values.
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            int position = viewHolder.getAdapterPosition();
+            // viewHolder.getItemId();
+            // viewHolder.getItemViewType();
+            // viewHolder.itemView;
+            String noteTitle = notesTitle.get(position);
+            String noteContent = notesList.get(position);
+            Integer noteID = notesID.get(position);
+            Intent intent = new Intent(getApplicationContext(),ActivityViewNote.class);
+            intent.putExtra("NOTE_TITLE", noteTitle);
+            intent.putExtra("NOTE_CONTENT",noteContent);
+            intent.putExtra("NOTE_ID",noteID);
+            startActivity(intent);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +59,15 @@ public class MainActivity extends AppCompatActivity {
         EnNotesDbHelper notesDbHelper = new EnNotesDbHelper(this);
         SQLiteDatabase userdb = notesDbHelper.getReadableDatabase();
 
-        Cursor notes_db = userdb.rawQuery("select Title,Content from Notes",null);
+        Cursor notes_db = userdb.rawQuery("select Title,Content,_id from Notes",null);
         notes_db.moveToFirst();
 
         try{
-            // Put initial data into the word list.
             for (int i = 0; i < notes_db.getCount(); i++) {
                 decryptedText = CryptoEnNotes.decrypt(this,notes_db.getString(1));
-                notesList.addLast(decryptedText);
+                notesList.addLast(notes_db.getString(1));
                 notesTitle.addLast(notes_db.getString(0));
+                notesID.addLast(notes_db.getInt(2));
                 notes_db.moveToNext();
             }
         }
@@ -59,9 +82,11 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
 
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new NotesAdapter(this, notesList,notesTitle);
+        mAdapter = new NotesAdapter(this, notesList,notesTitle,notesID);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(onItemClickListener);
 
 
         FloatingActionButton fab = findViewById(R.id.fab);

@@ -17,8 +17,9 @@ public class NotesAdapter extends
 
     private final LinkedList<String> notesContentList;
     private final LinkedList<String> notesTitleList;
+    private final LinkedList<Integer> notesIDList;
     private LayoutInflater mInflater;
-
+    private View.OnClickListener mOnItemClickListener;
 
     @NonNull
     @Override
@@ -29,21 +30,23 @@ public class NotesAdapter extends
     }
 
     public NotesAdapter(Context context,
-                        LinkedList<String> notesContentList,LinkedList<String> notesTitleList) {
+                        LinkedList<String> notesContentList,LinkedList<String> notesTitleList,
+                        LinkedList<Integer> notesID) {
         mInflater = LayoutInflater.from(context);
         this.notesContentList = notesContentList;
         this.notesTitleList = notesTitleList;
+        this.notesIDList = notesID;
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
         public final TextView mNoteViewContent,mNoteViewTitle;
-        final NotesAdapter mAdapter;
 
         public NotesViewHolder(View itemView, NotesAdapter adapter) {
             super(itemView);
             mNoteViewTitle = itemView.findViewById(R.id.notes_title);
             mNoteViewContent = itemView.findViewById(R.id.notes_content);
-            this.mAdapter = adapter;
+            itemView.setTag(this);
+            itemView.setOnClickListener(mOnItemClickListener);
         }
     }
 
@@ -58,5 +61,9 @@ public class NotesAdapter extends
     @Override
     public int getItemCount() {
         return notesContentList.size();
+    }
+
+    public void setOnItemClickListener(View.OnClickListener itemClickListener) {
+        mOnItemClickListener = itemClickListener;
     }
 }

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bmurali.ennotes">
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +28,9 @@
         </activity>
         <activity android:name=".activities.SetPassword" />
         <activity android:name=".activities.NewNote" />
+        <activity android:name=".activities.FingerprintActivity" />
+        <activity android:name=".activities.ActivityViewNote" />
+
     </application>
 
 </manifest>

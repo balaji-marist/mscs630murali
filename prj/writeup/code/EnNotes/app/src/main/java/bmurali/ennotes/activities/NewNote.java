@@ -12,17 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -51,9 +45,9 @@ public class NewNote extends AppCompatActivity {
 
         FloatingActionButton fabs = findViewById(R.id.floatingActionButtonSave);
         fabs.setOnClickListener(v -> {
-            EditText title = (EditText)findViewById(R.id.editTextTitle);
+            EditText title = (EditText)findViewById(R.id.editTextTitleInViewActivity);
             String str_title = title.getText().toString();
-            EditText content = (EditText)findViewById(R.id.editTextContent);
+            EditText content = (EditText)findViewById(R.id.editTextContentInViewActivity);
             String str_content = content.getText().toString();
             String encrypted_content = "";
             try{
