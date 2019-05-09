@@ -49,23 +49,15 @@ public class FingerprintActivity extends AppCompatActivity{
                     fingerprintHandler = new FingerprintHandler(this);
                     fingerprintHandler.startAuth(fingerprintManager, null);
 
- /*                   AlertDialog.Builder fingerprintDialogBuilder = new AlertDialog.Builder(this)
-                            .setTitle("Fingerprint Authenticate")
-                            .setMessage("Place Your Finger On The Fingerprint to Authenticate")
-                            .setIcon(R.drawable.ic_fingerprint_black_24dp)
-                            .setCancelable(true);
-                    AlertDialog fingerprintDialog = fingerprintDialogBuilder.create();
-                    fingerprintDialog.show();*/
-
                     new Handler().postDelayed( () -> {
                         fingerprintHandler.stopListeningAuthentication();
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("fingerprintCheckingResult",
+                        returnIntent.putExtra("result",
                                 fingerprintHandler.fingerprintHandlerResult);
                         setResult(Activity.RESULT_OK, returnIntent);
                         //fingerprintDialog.dismiss();
                         finish();
-                    }, 2000);
+                    }, 3000);
                 }
             }
         }
