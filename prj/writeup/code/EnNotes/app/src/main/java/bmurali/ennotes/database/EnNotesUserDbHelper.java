@@ -13,7 +13,8 @@ public class EnNotesUserDbHelper extends SQLiteOpenHelper {
             EnNotesContract.EnNotesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             EnNotesContract.EnNotesEntry.USER_KEY_CONTENT + " TEXT NOT NULL," +
             EnNotesContract.EnNotesEntry.USER_FIRST_NAME + " TEXT NOT NULL, " +
-            EnNotesContract.EnNotesEntry.USER_LAST_NAME + " TEXT NOT NULL" +
+            EnNotesContract.EnNotesEntry.USER_LAST_NAME + " TEXT NOT NULL, " +
+            EnNotesContract.EnNotesEntry.USER_KEY_SALT + " BLOB NOT NULL" +
             ");";
 
     private final String SQL_DELETE_ENTRIES_USER_PWD =

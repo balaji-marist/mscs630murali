@@ -6,12 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.content.SharedPreferences;
 import android.content.Intent;
 import android.widget.Toast;
+
+
 import bmurali.ennotes.database.*;
 import bmurali.ennotes.R;
-
+import bmurali.ennotes.encryption.HashMe;
 
 public class SetPassword extends AppCompatActivity {
 
@@ -44,9 +45,14 @@ public class SetPassword extends AppCompatActivity {
                     ContentValues values = new ContentValues();
                     values.put(EnNotesContract.EnNotesEntry.USER_FIRST_NAME,first_name);
                     values.put(EnNotesContract.EnNotesEntry.USER_LAST_NAME,last_name);
-                    values.put(EnNotesContract.EnNotesEntry.USER_KEY_CONTENT,confim_pass);
+                    try{
+                        byte[] salt = HashMe.getSalt();
+
+                        values.put(EnNotesContract.EnNotesEntry.USER_KEY_CONTENT, HashMe.securePassword(confim_pass,salt));
+                        values.put(EnNotesContract.EnNotesEntry.USER_KEY_SALT, salt);
+                    }
+                    catch(Exception e){}
                     long rowid = userdb.insert(EnNotesContract.EnNotesEntry.TABLE_NAME_USER_KEY,null,values);
-                    Toast.makeText(this, "The new Row Id is " + rowid, Toast.LENGTH_LONG).show();
                     //enter the app
                     Intent intent = new Intent(getApplicationContext(), EnterPassword.class);
                     startActivity(intent);

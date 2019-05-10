@@ -19,6 +19,7 @@ public class EnNotesContract {
         public static final String COLUMN_DATE = "CreatedDateTime";
         public static final String TABLE_NAME_USER_KEY = "UserKey";
         public static final String USER_KEY_CONTENT = "Content";
+        public static final String USER_KEY_SALT = "Salt";
         public static final String USER_FIRST_NAME = "FirstName";
         public static final String USER_LAST_NAME = "LastName";
     }

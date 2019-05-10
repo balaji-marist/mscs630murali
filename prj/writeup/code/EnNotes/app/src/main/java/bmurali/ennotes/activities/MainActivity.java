@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        ((Toolbar)findViewById(R.id.toolbar)).setTitle("Notes");
+        ((Toolbar)findViewById(R.id.toolbar)).setTitleTextColor(getResources().getColor(R.color.white));
         EnNotesDbHelper notesDbHelper = new EnNotesDbHelper(this);
         SQLiteDatabase userdb = notesDbHelper.getReadableDatabase();
 

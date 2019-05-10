@@ -14,6 +14,7 @@ import android.content.Intent;
 import bmurali.ennotes.R;
 import bmurali.ennotes.database.EnNotesDbHelper;
 import bmurali.ennotes.database.EnNotesUserDbHelper;
+import bmurali.ennotes.encryption.HashMe;
 
 public class EnterPassword extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class EnterPassword extends AppCompatActivity {
         EnNotesUserDbHelper notesUserDbHelper = new EnNotesUserDbHelper(this);
         SQLiteDatabase userdb = notesUserDbHelper.getReadableDatabase();
 
-        Cursor password_db = userdb.rawQuery("select FirstName,content from UserKey",null);
+        Cursor password_db = userdb.rawQuery("select FirstName,content,salt from UserKey",null);
         password_db.moveToFirst();
 
         setContentView(R.layout.activity_enter_password);
@@ -35,10 +36,14 @@ public class EnterPassword extends AppCompatActivity {
 
         Button b = findViewById(R.id.actionSubmitPassword);
 
-        b.setOnClickListener(v -> {
-            EditText pwd_from_screen = (EditText)findViewById(R.id.editTextKey);
-            String pwd_string = pwd_from_screen.getText().toString();
 
+        b.setOnClickListener(v -> {
+            String pwd_string="";
+            EditText pwd_from_screen = (EditText)findViewById(R.id.editTextKey);
+            try{
+                pwd_string = HashMe.securePassword(pwd_from_screen.getText().toString(),password_db.getBlob(2));
+            }
+            catch(Exception e){}
             if(password_db.getString(1).equals(pwd_string)){
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
